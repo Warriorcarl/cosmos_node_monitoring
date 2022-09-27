@@ -27,7 +27,7 @@ scrape_configs:
     metrics_path: /metrics
     static_configs: []
   - job_name: validators
-    metrics_path: /metrics/validators
+    metrics_path: /metrics/validator
     static_configs: []
   - job_name: validator
     metrics_path: /metrics/validator
