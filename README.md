@@ -1,17 +1,17 @@
-# Instructions on how to set up monitoring stack for your cosmos validator
+# Instructions on how to set up monitoring stack for your haqq validator
 
 ## Prerequisites
 
 ### Install exporters on validator node
 First of all you will have to install exporters on validator node. For that you can use one-liner below
 ```
-wget -O install_exporters.sh https://raw.githubusercontent.com/warriorcarl/cosmos_node_monitoring/master/install_exporters.sh && chmod +x install_exporters.sh && ./install_exporters.sh
+wget -O install_exporters.sh https://raw.githubusercontent.com/warriorcarl/haqq_node_monitoring/master/install_exporters.sh && chmod +x install_exporters.sh && ./install_exporters.sh
 ```
 
 | KEY |VALUE |
 |---------------|-------------|
-| **bond_denom** | Denominated token name, for example, `ubld` for Agoric. You can find it in genesis file |
-| **bench_prefix** | Prefix for chain addresses, for example, `agoric` for Agoric. You can find it in public addresses like this **agoric**_valoper1zyyz4m9ytdf60fn9yaafx7uy7h463n7alv2ete_ |
+| **bond_denom** | Denominated token name, for example, `aISLM` for haqq. You can find it in genesis file |
+| **bench_prefix** | Prefix for chain addresses, for example, `haqq` for haqq. You can find it in public addresses like this **haqq**_valoper1zyyz4m9ytdf60fn9yaafx7uy7h463n7alv2ete_ |
 | **rpc_port** | Your validator `rpc` port that is defined in `config.toml` file. Default value for aura is `26657` |
 | **grpc_port** | Your validator `grpc` port that is defined in `app.toml` file. Default value for aura is `9090` |
 
@@ -19,7 +19,7 @@ make sure prometheus is enabled in validator `config.toml` file
 
 make sure following ports are open:
 - `9100` (node-exporter)
-- `9300` (cosmos-exporter)
+- `9300` (haqq-exporter)
 - `26660` (validator prometheus)
 
 ## Deployment
@@ -32,17 +32,17 @@ Ubuntu 20.04 / 1 VCPU / 2 GB RAM / 20 GB SSD
 ### Install monitoring stack
 To install monitirng stack you can use one-liner below
 ```
-wget -O install_monitoring.sh https://raw.githubusercontent.com/warriorcarl/cosmos_node_monitoring/master/install_monitoring.sh && chmod +x install_monitoring.sh && ./install_monitoring.sh
+wget -O install_monitoring.sh https://raw.githubusercontent.com/warriorcarl/haqq_node_monitoring/master/install_monitoring.sh && chmod +x install_monitoring.sh && ./install_monitoring.sh
 ```
 
 ### Copy _.env.example_ into _.env_
 ```
-cp $HOME/cosmos_node_monitoring/config/.env.example $HOME/cosmos_node_monitoring/config/.env
+cp $HOME/haqq_node_monitoring/config/.env.example $HOME/haqq_node_monitoring/config/.env
 ```
 
 ### Update values in _.env_ file
 ```
-nano $HOME/cosmos_node_monitoring/config/.env
+nano $HOME/haqq_node_monitoring/config/.env
 ```
 
 | KEY | VALUE |
@@ -52,24 +52,24 @@ nano $HOME/cosmos_node_monitoring/config/.env
 
 ### Export _.env_ file values into _.bash_profile_
 ```
-echo "export $(xargs < $HOME/cosmos_node_monitoring/config/.env)" > $HOME/.bash_profile
+echo "export $(xargs < $HOME/haqq_node_monitoring/config/.env)" > $HOME/.bash_profile
 source $HOME/.bash_profile
 ```
 
 ### Add validator into _prometheus_ configuration file
 To add validator use command with specified `VALIDATOR_IP`, `VALOPER_ADDRESS`, `WALLET_ADDRESS` and `PROJECT_NAME`
 ```
-$HOME/cosmos_node_monitoring/add_validator.sh VALIDATOR_IP PORT VALOPER_ADDRESS WALLET_ADDRESS PROJECT_NAME
+$HOME/haqq_node_monitoring/add_validator.sh VALIDATOR_IP PORT VALOPER_ADDRESS WALLET_ADDRESS PROJECT_NAME
 ```
 
-> example: ```$HOME/cosmos_node_monitoring/add_validator.sh 1.2.3.4 12660 cosmosvaloper1s9rtstp8amx9vgsekhf3rk4rdr7qvg8dlxuy8v cosmos1s9rtstp8amx9vgsekhf3rk4rdr7qvg8d6jg3tl cosmos```
+> example: ```$HOME/haqq_node_monitoring/add_validator.sh 1.2.3.4 12660 haqqvaloper1s9rtstp8amx9vgsekhf3rk4rdr7qvg8dlxuy8v haqq1s9rtstp8amx9vgsekhf3rk4rdr7qvg8d6jg3tl haqq```
 
 To add more validators just run command above with validator values
 
 ### Run docker-compose
 Deploy the monitoring stack
 ```
-cd $HOME/cosmos_node_monitoring && docker-compose up -d
+cd $HOME/haqq_node_monitoring && docker-compose up -d
 ```
 
 ports used:
@@ -168,7 +168,7 @@ Grafana dashboard is devided into 4 sections:
 
 ## Cleanup all container data
 ```
-cd $HOME/cosmos_node_monitoring
+cd $HOME/haqq_node_monitoring
 docker-compose down
 docker volume prune -f
 ```
@@ -176,6 +176,6 @@ docker volume prune -f
 ## Reference list
 Resources I used in this project:
 - Grafana Validator stats [Cosmos Validator by freak12techno](https://grafana.com/grafana/dashboards/14914)
-- Grafana Hardware health [AgoricTools by Chainode](https://github.com/Chainode/AgoricTools)
+- Grafana Hardware health [haqqTools by Chainode](https://github.com/Chainode/haqqTools)
 - Stack of monitoring tools, docker configuration [node_tooling by Xiphiar](https://github.com/Xiphiar/node_tooling/)
 - Alertmanager telegram bot [alertmanager-bot by metalmatze](https://github.com/metalmatze/alertmanager-bot)
